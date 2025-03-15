@@ -1,5 +1,5 @@
 # ## Table of Contents
-# 
+
 # I. [Exploratory Data Analysis]
 # II. [Rank Based Recommendations]
 # III. [User-User Based Collaborative Filtering]
@@ -56,7 +56,8 @@ print(df.isnull().sum())
 df[df.email.isna()]
 
 
-# `2.` What is the distribution of how many articles a user interacts with in the dataset?  Provide a visual and descriptive statistics to assist with giving a look at the number of times each user interacts with an article.
+# `2.` What is the distribution of how many articles a user interacts with in the dataset?  
+#Provide a visual and descriptive statistics to assist with giving a look at the number of times each user interacts with an article.
 
 
 
@@ -106,9 +107,6 @@ print(f"Median: {median_val}")
 print(f"Max: {max_views_by_user}")
 
 
-# `3.` Use the cells below to find:
-
-
 unique_articles = df['article_id'].nunique()
 print(f"Number of unique articles with interactions: {unique_articles}")
 total_articles = df['article_id'].nunique() 
@@ -119,7 +117,10 @@ user_article_interactions = len(df)
 print(f"Number of user-article interactions: {user_article_interactions}")
 
 
-# `4.` find the most viewed article_id, as well as how often it was viewed.  After talking to the company leaders, the `email_mapper` function was deemed a reasonable way to map users to ids.  There were a small number of null values, and it was found that all of these null values likely belonged to a single user (which is how they are stored using the function below).
+# `4.` find the most viewed article_id, as well as how often it was viewed.  
+#After talking to the company leaders, the `email_mapper` function was deemed a reasonable way to map users to ids.  
+#There were a small number of null values, and it was found that all of these null values likely belonged to a single user 
+#(which is how they are stored using the function below).
 
 
 # Count the number of times each article was viewed
@@ -153,10 +154,9 @@ df.head()
 
 # Rank-Based Recommendations
 # 
-# In this project, we don't actually have ratings for whether a user liked an article or not.  We only know that a user has interacted with an article. In these cases, the popularity of an article can really only be based on how often an article was interacted with.
-# 
-# `1.` Fill in the function below to return the **n** top articles ordered with most interactions as the top. Test your function using the tests below.
-
+# In this project, we don't actually have ratings for whether a user liked an article or not.  
+#We only know that a user has interacted with an article. In these cases, the popularity of an article can really only be based on how often an article was interacted with.
+# `1.` Return the **n** top articles ordered with most interactions as the top. 
 
 
 def get_top_articles(n, df=df):
@@ -208,19 +208,12 @@ top_20 = get_top_articles(20)
 
 
 # Part III: User-User Based Collaborative Filtering
-# 
-# 
+
 # `1.` Use the function below to reformat the **df** dataframe to be shaped with users as the rows and articles as the columns.  
-# 
 # * Each **user** should only appear in each **row** once.
-# 
-# 
-# * Each **article** should only show up in one **column**.  
-# 
-# 
-# * **If a user has interacted with an article, then place a 1 where the user-row meets for that article-column**.  It does not matter how many times a user has interacted with the article, all entries where a user has interacted with an article should be a 1.  
-# 
-# 
+# * Each **article** should only show up in one **column**.
+# *If a user has interacted with an article, then place a 1 where the user-row meets for that article-column**. 
+# It does not matter how many times a user has interacted with the article, all entries where a user has interacted with an article should be a 1.  
 # * **If a user has not interacted with an item, then place a zero where the user-row meets for that article-column**. 
 
 
@@ -250,7 +243,9 @@ user_item = create_user_item_matrix(df)
 
 
 
-# `2.` The function below which should take a user_id and provide an ordered list of the most similar users to that user (from most similar to least similar).  The returned result should not contain the provided user_id, as we know that each user is similar to him/herself. Because the results for each user here are binary, it (perhaps) makes sense to compute similarity as the dot product of two users. 
+# `2.` The function below which should take a user_id and provide an ordered list of the most similar users to that user 
+#(from most similar to least similar).  The returned result should not contain the provided user_id, as we know that each user is similar to him/herself. 
+#Because the results for each user here are binary, it (perhaps) makes sense to compute similarity as the dot product of two users. 
 
 
 # Lets use the cosine_similarity function from sklearn
@@ -296,9 +291,7 @@ def find_similar_users(user_id, user_item=user_item, include_similarity=False):
     return similar_users
 
 
-# `3.` Now that you have a function that provides the most similar users to each user, you will want to use these users to find articles you can recommend.  Complete the functions below to return the articles you would recommend to each user. 
-
-
+# `3.` Now that we have a function that provides the most similar users to each user, we will use these users to find articles we can recommend.  
 
 def get_article_names(article_ids, df=df):
     """
@@ -425,7 +418,7 @@ get_ranked_article_unique_counts([1320, 232, 844])[0]
 
 
 # `4.` Now we are going to improve the consistency of the **user_user_recs** function from above.  
-# 
+
 # * Instead of arbitrarily choosing when we obtain users who are all the same closeness to a given user - choose the users that have the most total article interactions before choosing those with fewer article interactions.
 # * Instead of arbitrarily choosing articles from the user where the number of recommended articles starts below m and ends exceeding m, choose articles with the articles with the most total interactions before choosing those with fewer total interactions. This ranking should be  what would be obtained from the **top_articles** function you wrote earlier.
 
@@ -532,7 +525,7 @@ def user_user_recs_part2(user_id, m=10, user_item=user_item):
 
 
 
-# Quick spot check - don't change this code - just use it to test your functions
+# Quick spot check
 rec_ids, rec_names = user_user_recs_part2(20, 10)
 print("The top 10 recommendations for user 20 are the following article ids:")
 print(rec_ids)
@@ -541,7 +534,8 @@ print("The top 10 recommendations for user 20 are the following article names:")
 print(rec_names)
 
 
-# `5.` Use the functions from above to correctly fill in the solutions to the dictionary below.  Then test your dictionary against the solution.  Provide the code you need to answer each following the comments below.
+# `5.` We will Use the functions from above to correctly fill in the solutions to the dictionary below.  
+#Then test the dictionary against the solution.
 
 
 print(get_top_sorted_users(1, user_item=user_item).head(n=1))
@@ -574,7 +568,7 @@ print(results)
 
 
 
-# What would your recommendations be for this new user 0?  As a new user, they have no observed articles.
+# What would our recommendations be for this new user 0?  As a new user, they have no observed articles.
 # Provide a list of the top 10 article ids you would give to 
 # Get the ranked article IDs based on popularity
 ranked_articles = get_ranked_article_unique_counts(user_item=user_item)
@@ -588,7 +582,9 @@ print(f"Top 10 recommendations for new user: {new_user_recs}")
 
 # Part IV: Content Based Recommendations
 
-# `1.` Used the function bodies below to create a content based recommender function `make_content_recs`. We'll use TF-IDF to create a matrix based off article titles, and use this matrix to create clusters of related articles. You can use this function to make recommendations of new articles.
+# `1.` Used the function bodies below to create a content based recommender function `make_content_recs`. 
+#We'll use TF-IDF to create a matrix based off article titles, and use this matrix to create clusters of related articles. 
+#We can use this function to make recommendations of new articles.
 
 df.head()
 
@@ -771,12 +767,15 @@ print(rec_article_titles)
 
 
 
-# `2.` Now that we have put together your content-based recommendation system, we will use the cell below to write a summary explaining how our content based recommender works. 
+# `2.` Now that we have put together your content-based recommendation system, 
+#we will use the cell below to write a summary explaining how our content based recommender works. 
 
-# The content-based recommendation system clusters articles using semantic similarity from their titles. It uses TF-IDF vectorization and LSA for dimensionality reduction, and KMeans for clustering. Recommendations are articles from the same cluster as the given article, ranked by popularity using unique user interactions.
+# The content-based recommendation system clusters articles using semantic similarity from their titles. 
+#It uses TF-IDF vectorization and LSA for dimensionality reduction, and KMeans for clustering. 
+#Recommendations are articles from the same cluster as the given article, ranked by popularity using unique user interactions.
 
 # Part V: Matrix Factorization
-#
+
 # quick look at the matrix
 user_item.head()
 
